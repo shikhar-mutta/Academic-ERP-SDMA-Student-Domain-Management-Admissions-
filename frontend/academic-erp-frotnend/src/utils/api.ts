@@ -191,7 +191,6 @@ export const endpoints = {
   domainDeleteImpact: (id: number) => `/domains/${id}/delete-impact`,
   studentsByDomain: (id: number) => `/students/domain/${id}`,
   admitStudent: '/students/admit',
-  students: '/students',
   studentById: (id: number) => `/students/${id}`,
   initDatabase: '/database/init',
 }

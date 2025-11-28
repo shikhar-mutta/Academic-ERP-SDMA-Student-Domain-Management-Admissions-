@@ -107,6 +107,29 @@ const DomainsListPage = () => {
     }
   }
 
+  const closeDeleteModal = () => {
+    setShowDeleteConfirm(false)
+    setPendingDeleteId(null)
+    setDeleteImpact(null)
+  }
+
+  // Handle ESC key press to close delete modal
+  useEffect(() => {
+    const handleEscapeKey = (event: KeyboardEvent) => {
+      if (event.key === 'Escape' && showDeleteConfirm) {
+        closeDeleteModal()
+      }
+    }
+
+    if (showDeleteConfirm) {
+      document.addEventListener('keydown', handleEscapeKey)
+    }
+
+    return () => {
+      document.removeEventListener('keydown', handleEscapeKey)
+    }
+  }, [showDeleteConfirm]) // eslint-disable-line react-hooks/exhaustive-deps
+
 
   return (
     <div className="animate-fade-in flex flex-col h-full w-full">
@@ -327,8 +350,19 @@ const DomainsListPage = () => {
 
       {/* Delete Confirmation Dialog */}
       {showDeleteConfirm && deleteImpact && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
-          <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md m-4">
+        <div 
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm"
+          onClick={(e) => {
+            // Close modal if clicking directly on the backdrop
+            if (e.target === e.currentTarget) {
+              closeDeleteModal()
+            }
+          }}
+        >
+          <div 
+            className="bg-white rounded-2xl shadow-2xl w-full max-w-md m-4"
+            onClick={(e) => e.stopPropagation()}
+          >
             <div className="p-6">
               <div className="flex items-center gap-3 mb-4">
                 <div className="flex h-12 w-12 items-center justify-center rounded-full bg-red-100">
@@ -364,11 +398,7 @@ const DomainsListPage = () => {
 
               <div className="flex gap-3">
                 <button
-                  onClick={() => {
-                    setShowDeleteConfirm(false)
-                    setPendingDeleteId(null)
-                    setDeleteImpact(null)
-                  }}
+                  onClick={closeDeleteModal}
                   className="flex-1 rounded-full border-2 border-slate-300 bg-white px-6 py-3 text-sm font-semibold text-slate-700 hover:bg-slate-50 transition-colors"
                 >
                   Cancel

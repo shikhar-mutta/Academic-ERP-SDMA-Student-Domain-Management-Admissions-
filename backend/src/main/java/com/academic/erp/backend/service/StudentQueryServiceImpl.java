@@ -29,14 +29,6 @@ public class StudentQueryServiceImpl implements StudentQueryService {
     }
 
     @Override
-    public List<StudentResponseDto> getAllStudents() {
-        return studentRepository.findByIsActiveTrue()
-                .stream()
-                .map(this::toDto)
-                .toList();
-    }
-
-    @Override
     public List<StudentResponseDto> getStudentsByDomain(Long domainId) {
         return studentRepository.findByDomain_DomainIdAndIsActiveTrue(domainId)
                 .stream()

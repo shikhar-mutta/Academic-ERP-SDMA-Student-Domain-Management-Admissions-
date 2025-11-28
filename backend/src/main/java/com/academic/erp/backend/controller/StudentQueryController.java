@@ -25,14 +25,6 @@ public class StudentQueryController {
 
     private final StudentQueryService queryService;
 
-    @Operation(summary = "Get all students", description = "Retrieve a list of all students")
-    @ApiResponse(responseCode = "200", description = "Successfully retrieved list of students",
-            content = @Content(mediaType = "application/json", schema = @Schema(implementation = StudentResponseDto.class)))
-    @GetMapping
-    public List<StudentResponseDto> getAllStudents() {
-        return queryService.getAllStudents();
-    }
-
     @Operation(summary = "Get students by domain", description = "Retrieve all students belonging to a specific domain")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Successfully retrieved students for the domain",
