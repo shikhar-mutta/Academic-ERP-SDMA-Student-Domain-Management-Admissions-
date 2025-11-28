@@ -1,7 +1,5 @@
 import { Navigate, Route, Routes } from 'react-router-dom'
 import AccessDeniedPage from './pages/AccessDeniedPage'
-import AddStudentPage from './pages/AddStudentPage'
-import ViewStudentsPage from './pages/ViewStudentsPage'
 import DomainsListPage from './pages/DomainsListPage'
 import ViewDomainStudentsPage from './pages/ViewDomainStudentsPage'
 import EditDomainPage from './pages/EditDomainPage'
@@ -21,8 +19,6 @@ function App() {
       <Route element={<ProtectedRoute />}>
         <Route element={<AppLayout />}>
           <Route path="/domains-list" element={<DomainsListPage />} />
-          <Route path="/students" element={<ViewStudentsPage />} />
-          <Route path="/add-student" element={<AddStudentPage />} />
           <Route path="/domains/:domainId/view" element={<ViewDomainPage />} />
           <Route path="/domains/:domainId/edit" element={<EditDomainPage />} />
           <Route path="/domains/:domainId/students" element={<ViewDomainStudentsPage />} />

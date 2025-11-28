@@ -1,6 +1,8 @@
 package com.academic.erp.backend.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import lombok.*;
 import java.time.LocalDateTime;
 
@@ -22,6 +24,9 @@ public class Domain {
     private String program;
 
     private String batch;
+    
+    @Min(value = 0, message = "Capacity must be at least 0")
+    @Max(value = 150, message = "Capacity must be at most 150")
     private Integer capacity;
 
     @Column(name = "exam_name", length = 120)

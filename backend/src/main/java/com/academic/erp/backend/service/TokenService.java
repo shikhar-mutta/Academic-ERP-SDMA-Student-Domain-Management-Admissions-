@@ -155,50 +155,5 @@ public class TokenService {
         }
     }
 
-    public TokenInfoResponse validateAccessToken(String accessToken) {
-        String tokenInfoEndpoint = "https://oauth2.googleapis.com/tokeninfo?access_token=" + accessToken;
-
-        try {
-            ResponseEntity<Map<String, Object>> response = restTemplate.exchange(
-                    tokenInfoEndpoint, HttpMethod.GET, null, new ParameterizedTypeReference<Map<String, Object>>() {});
-
-            if (response.getStatusCode() != HttpStatus.OK || response.getBody() == null) {
-                throw new RuntimeException("Invalid access token");
-            }
-            
-            Map<String, Object> body = response.getBody();
-            
-            // Check for error in response
-            if (body.containsKey("error")) {
-                String errorDescription = (String) body.getOrDefault("error_description", body.get("error"));
-                throw new RuntimeException("Token validation error: " + errorDescription);
-            }
-                
-            // Validate client ID
-            String aud = (String) body.get("aud");
-            if (aud == null || !clientId.equals(aud)) {
-                throw new RuntimeException("Invalid client ID in token");
-            }
-
-            // Build response
-            TokenInfoResponse tokenInfo = new TokenInfoResponse();
-            tokenInfo.setEmail((String) body.get("email"));
-            tokenInfo.setName((String) body.get("name"));
-            tokenInfo.setPicture((String) body.get("picture"));
-            tokenInfo.setAud(aud);
-            tokenInfo.setIss((String) body.get("iss"));
-
-            return tokenInfo;
-        } catch (org.springframework.web.client.HttpClientErrorException e) {
-            log.error("HTTP client error validating access token: {}", e.getResponseBodyAsString());
-            throw new RuntimeException("Invalid or expired access token");
-        } catch (org.springframework.web.client.RestClientException e) {
-            log.error("REST client error validating access token", e);
-            throw new RuntimeException("Service temporarily unavailable. Please try again.");
-        } catch (Exception e) {
-            log.error("Error validating access token", e);
-            throw new RuntimeException("Failed to validate access token: " + (e.getMessage() != null ? e.getMessage() : "Unknown error"));
-        }
-    }
 }
 

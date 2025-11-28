@@ -37,7 +37,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         email: data.email,
         name: data.name,
         picture: data.picture,
-        token: '', // Not needed in server-side flow
       }
 
       setUser(profile)

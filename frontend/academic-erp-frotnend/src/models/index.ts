@@ -34,25 +34,6 @@ export interface Student {
   examMarks: number
 }
 
-export interface StudentAdmissionForm {
-  firstName: string
-  lastName: string
-  email: string
-  domainId: string
-  joinYear: string
-  examMarks: number
-}
-
-export interface StudentUpdateRequest {
-  studentId: number
-  firstName: string
-  lastName: string
-  email: string
-  domainId: number
-  joinYear: number
-  examMarks: number
-}
-
 export interface StudentResponse {
   studentId: number
   rollNumber: string
@@ -69,11 +50,5 @@ export interface UserProfile {
   email: string
   name: string
   picture?: string
-  token: string
-}
-
-export interface ApiError {
-  message?: string
-  status?: number
 }
 

@@ -82,14 +82,8 @@ public class GlobalExceptionHandler {
         } else {
             String lowerMessage = message.toLowerCase();
             
-            // Photo file errors
-            if (lowerMessage.contains("photo file is required")) {
-                userFriendlyMessage = "Please select a photo file to upload.";
-            } else if (lowerMessage.contains("only image files") || lowerMessage.contains("jpeg/png/gif/webp")) {
-                userFriendlyMessage = "Only image files (JPEG, PNG, GIF, or WebP) are allowed. Please select a valid image file.";
-            }
             // StudentId mismatch
-            else if (lowerMessage.contains("studentid") || lowerMessage.contains("does not match")) {
+            if (lowerMessage.contains("studentid") || lowerMessage.contains("does not match")) {
                 userFriendlyMessage = "There was a mismatch in the student information. Please refresh the page and try again.";
             }
             // Invalid degree/department
@@ -230,6 +224,17 @@ public class GlobalExceptionHandler {
                 userFriendlyMessage = "This record already exists. Please check your input.";
             }
             status = HttpStatus.CONFLICT;
+        }
+        // Check constraint violations (capacity, cutoff marks, etc.)
+        else if (combinedMessage.contains("check constraint") || combinedMessage.contains("check (capacity")) {
+            if (combinedMessage.contains("capacity")) {
+                userFriendlyMessage = "Capacity must be between 0 and 150. Please enter a valid capacity value.";
+            } else if (combinedMessage.contains("cutoff_marks") || combinedMessage.contains("cutoff marks")) {
+                userFriendlyMessage = "Cutoff marks must be between 0 and 100. Please enter a valid cutoff value.";
+            } else {
+                userFriendlyMessage = "Invalid data value. Please check your input and ensure all values are within the allowed range.";
+            }
+            status = HttpStatus.BAD_REQUEST;
         }
         // Foreign key constraint
         else if (combinedMessage.contains("foreign key") || combinedMessage.contains("constraint")) {
@@ -439,10 +444,6 @@ public class GlobalExceptionHandler {
             // Service unavailable errors
             else if (lowerMessage.contains("service temporarily unavailable") || lowerMessage.contains("service unavailable")) {
                 userFriendlyMessage = "Service is temporarily unavailable. Please try again in a few moments.";
-            }
-            // Photo/file upload errors
-            else if (lowerMessage.contains("unable to store photo") || lowerMessage.contains("photo") || lowerMessage.contains("file")) {
-                userFriendlyMessage = "Unable to upload the photo. Please check the file and try again.";
             }
             // Database table creation errors
             else if (lowerMessage.contains("failed to create database tables") || lowerMessage.contains("database tables")) {

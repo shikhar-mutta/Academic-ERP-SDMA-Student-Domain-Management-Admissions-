@@ -240,11 +240,17 @@ const DomainModal = ({ isOpen, onClose, onSuccess, domain, checkImpact = false }
                     // Only allow numbers (no decimals for capacity)
                     const value = e.target.value.replace(/[^0-9]/g, '')
                     const numValue = value ? parseInt(value, 10) : undefined
-                    // Enforce max value of 150
-                    if (numValue !== undefined && numValue > 150) {
-                      formik.setFieldValue('capacity', 150)
+                    // Enforce range: 0 to 150
+                    if (numValue !== undefined) {
+                      if (numValue < 0) {
+                        formik.setFieldValue('capacity', 0)
+                      } else if (numValue > 150) {
+                        formik.setFieldValue('capacity', 150)
+                      } else {
+                        formik.setFieldValue('capacity', numValue)
+                      }
                     } else {
-                      formik.setFieldValue('capacity', numValue)
+                      formik.setFieldValue('capacity', undefined)
                     }
                   }}
                   onBlur={formik.handleBlur}

@@ -180,37 +180,6 @@ export const getErrorMessage = (error: unknown): string => {
   }
 }
 
-/**
- * Get detailed error information including suggestions
- */
-export const getErrorDetails = (error: unknown): ErrorResponse => {
-  try {
-    if (axios.isAxiosError(error) && error.response) {
-      const data = error.response.data as ErrorResponse
-      return {
-        error: data?.error || error.message,
-        message: data?.message,
-        suggestion: data?.suggestion,
-        type: data?.type,
-        errors: data?.errors
-      }
-    }
-    
-    if (error instanceof Error) {
-      return {
-        error: error.message
-      }
-    }
-    
-    return {
-      error: 'An unexpected error occurred.'
-    }
-  } catch {
-    return {
-      error: 'An unexpected error occurred.'
-    }
-  }
-}
 
 export const endpoints = {
   login: '/login',
