@@ -1,8 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useFormik } from 'formik'
 import { apiClient, endpoints, getErrorMessage } from '../utils/api'
-import { domainFormSchema } from '../utils/validationSchemas'
-import { formatCutoffMarksForDB } from '../utils/validators'
+import { domainFormSchema, formatCutoffMarksForDB } from '../utils/validationSchemas'
 import type { Domain, DomainRequest, DomainUpdateImpact } from '../models'
 
 interface DomainFormValues {

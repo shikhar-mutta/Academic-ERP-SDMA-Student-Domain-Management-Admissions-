@@ -59,7 +59,7 @@ public class RollNumberGenerator {
         }
 
         // Fallback: Use default range (900-999) for unrecognized departments
-        return new DepartmentRange(900, 999);
+        return new DepartmentRange(900, 1200);
     }
 
     public String buildRollBase(String prefix, Integer joinYear) {

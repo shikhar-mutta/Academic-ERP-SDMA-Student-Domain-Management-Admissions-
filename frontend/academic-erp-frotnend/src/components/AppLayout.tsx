@@ -102,8 +102,7 @@ const AppLayout = () => {
       >
         <nav className="flex-1 p-4 space-y-2 overflow-y-auto pt-8">
           {sidebarLinks.map((link) => {
-            const isActive = location.pathname.startsWith(link.to) || 
-              (link.to === '/domains-list' && location.pathname === '/domains')
+            const isActive = location.pathname.startsWith(link.to)
             return (
               <NavLink
                 key={link.to}

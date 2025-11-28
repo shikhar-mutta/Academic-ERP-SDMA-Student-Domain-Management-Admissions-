@@ -392,6 +392,7 @@ const DomainsListPage = () => {
         onClose={handleModalClose}
         onSuccess={handleModalSuccess}
         domain={editingDomain}
+        checkImpact={ editingDomain ? true : false}
       />
     </div>
   )
