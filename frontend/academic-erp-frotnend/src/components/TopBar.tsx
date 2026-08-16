@@ -6,6 +6,7 @@ const TopBar = () => {
   const { user, logout } = useAuth()
   const navigate = useNavigate()
   const [userDropdownOpen, setUserDropdownOpen] = useState(false)
+  const [avatarError, setAvatarError] = useState(false)
   const dropdownRef = useRef<HTMLDivElement>(null)
   const dropdownCloseTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
@@ -17,6 +18,11 @@ const TopBar = () => {
       }
     }
   }, [])
+
+  // Reset avatar error state when the picture URL changes
+  useEffect(() => {
+    setAvatarError(false)
+  }, [user?.picture])
 
   const handleLogout = async () => {
     try {
@@ -96,10 +102,12 @@ const TopBar = () => {
             className="flex items-center gap-3 hover:bg-slate-50 rounded-lg px-3 py-2 transition-colors"
             aria-label="User menu"
           >
-            {user?.picture ? (
+            {user?.picture && !avatarError ? (
               <img
                 src={user.picture}
                 alt={user.name}
+                referrerPolicy="no-referrer"
+                onError={() => setAvatarError(true)}
                 className="h-10 w-10 rounded-full border-2 border-white shadow-md object-cover ring-2 ring-brand-200 flex-shrink-0"
               />
             ) : (
